@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  
+  <url>
+    <loc>http://yoursite.com/photos/videos.html</loc>
+    
+    <lastmod>2018-03-18T10:20:51.980Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/photos/data.json</loc>
+    
+    <lastmod>2018-03-18T09:32:09.308Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/photos/index.html</loc>
+    
+    <lastmod>2018-03-14T14:40:52.467Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2018/02/24/hello-world/</loc>
+    
+    <lastmod>2018-03-10T11:27:08.795Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/assets/demo/pre_css3_demo/demo.html</loc>
+    
+    <lastmod>2018-03-10T11:17:33.914Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/assets/demo/my_news_reader/index.html</loc>
+    
+    <lastmod>2018-03-10T11:17:33.911Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/assets/demo/mediator/demo.html</loc>
+    
+    <lastmod>2018-03-10T11:17:33.910Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/assets/demo/jiugongge_demo2.html</loc>
+    
+    <lastmod>2018-03-10T11:17:33.909Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/assets/demo/jiugongge_demo.html</loc>
+    
+    <lastmod>2018-03-10T11:17:33.908Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/assets/demo/hack_demo.html</loc>
+    
+    <lastmod>2018-03-10T11:17:33.908Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/assets/demo/gift/index.html</loc>
+    
+    <lastmod>2018-03-10T11:17:33.902Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/assets/demo/coffee_pc_demo/pro-con.html</loc>
+    
+    <lastmod>2018-03-10T11:17:33.900Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/assets/demo/border1px.html</loc>
+    
+    <lastmod>2018-03-10T11:17:33.899Z</lastmod>
+    
+  </url>
+  
+</urlset>
