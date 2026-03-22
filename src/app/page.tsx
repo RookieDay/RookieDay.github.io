@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { getTodayReports, categories, Category } from '@/lib/reports'
+import { getTodayReports, categories, Category, getAllTags } from '@/lib/reports'
 
 function CategorySection({ categoryId, reports }: { categoryId: Category, reports: ReturnType<typeof getTodayReports> }) {
   const category = categories.find(c => c.id === categoryId)
@@ -31,6 +31,15 @@ function CategorySection({ categoryId, reports }: { categoryId: Category, report
                   })}
                 </span>
               </div>
+              {report.tags.length > 0 && (
+                <div className="card-tags">
+                  {report.tags.map(tag => (
+                    <span key={tag} className="card-tag">
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              )}
             </div>
             <p className="card-summary">{report.summary}</p>
             <Link href={`/${report.category}/${report.slug}`} className="card-link">
@@ -45,6 +54,7 @@ function CategorySection({ categoryId, reports }: { categoryId: Category, report
 
 export default function Home() {
   const todayReports = getTodayReports()
+  const allTags = getAllTags()
   const hasReports = todayReports.length > 0
 
   return (
@@ -65,6 +75,22 @@ export default function Home() {
         <Link href="/fund" className="nav-link">基金追踪</Link>
         <Link href="/monitor" className="nav-link">实时监控</Link>
       </nav>
+
+      {allTags.length > 0 && (
+        <div className="container" style={{ marginBottom: '32px' }}>
+          <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', justifyContent: 'center' }}>
+            {allTags.map(tag => (
+              <span
+                key={tag}
+                className="nav-link"
+                style={{ fontSize: '0.8rem', padding: '6px 14px', cursor: 'default' }}
+              >
+                {tag}
+              </span>
+            ))}
+          </div>
+        </div>
+      )}
 
       <main className="container">
         {hasReports ? (

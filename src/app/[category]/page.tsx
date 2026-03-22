@@ -35,6 +35,12 @@ export default function CategoryPage({ params }: { params: { category: Category 
       </nav>
 
       <main className="container">
+        <nav className="breadcrumb">
+          <Link href="/">首页</Link>
+          <span>/</span>
+          <span className="current">{category.name}</span>
+        </nav>
+
         {reports.length > 0 ? (
           <div className="grid">
             {reports.map(report => (
@@ -52,6 +58,19 @@ export default function CategoryPage({ params }: { params: { category: Category 
                       })}
                     </span>
                   </div>
+                  {report.tags.length > 0 && (
+                    <div className="card-tags">
+                      {report.tags.map(tag => (
+                        <Link 
+                          key={tag} 
+                          href={`/?tag=${encodeURIComponent(tag)}`}
+                          className="card-tag"
+                        >
+                          {tag}
+                        </Link>
+                      ))}
+                    </div>
+                  )}
                 </div>
                 <p className="card-summary">{report.summary}</p>
                 <Link href={`/${report.category}/${report.slug}`} className="card-link">

@@ -1,8 +1,10 @@
 import Link from 'next/link'
-import { getReport, getReports, categories } from '@/lib/reports'
+import { getReport, getReports, categories, extractHeadings } from '@/lib/reports'
 import { notFound } from 'next/navigation'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
+import { TOC } from '@/components/TOC'
+import { ShareButtons } from '@/components/ShareButtons'
 
 export function generateStaticParams() {
   const params: { category: string; slug: string }[] = []
@@ -29,6 +31,9 @@ export default function ReportPage({ params }: { params: { category: string; slu
     notFound()
   }
 
+  const headings = extractHeadings(report.content)
+  const pageUrl = `https://rookieday.github.io/${params.category}/${params.slug}`
+
   return (
     <>
       <header className="header">
@@ -49,32 +54,58 @@ export default function ReportPage({ params }: { params: { category: string; slu
       </nav>
 
       <main className="container">
-        <Link href={`/${params.category}`} className="back-link">
-          返回{category.name}
-        </Link>
+        <nav className="breadcrumb">
+          <Link href="/">首页</Link>
+          <span>/</span>
+          <Link href={`/${params.category}`}>{category.name}</Link>
+          <span>/</span>
+          <span className="current">{report.title}</span>
+        </nav>
 
-        <article className="article">
-          <div className="article-header">
-            <h1>{report.title}</h1>
-            <div className="article-meta">
-              <span>{category.icon} {category.name}</span>
-              <span>
-                {new Date(report.date).toLocaleString('zh-CN', {
-                  year: 'numeric',
-                  month: 'long',
-                  day: 'numeric',
-                  hour: '2-digit',
-                  minute: '2-digit'
-                })}
-              </span>
+        <div className="article-layout">
+          <article className="article">
+            <div className="article-header">
+              <h1>{report.title}</h1>
+              <div className="article-meta">
+                <span>{category.icon} {category.name}</span>
+                <span>
+                  {new Date(report.date).toLocaleString('zh-CN', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                  })}
+                </span>
+              </div>
+              {report.tags.length > 0 && (
+                <div className="article-tags">
+                  {report.tags.map(tag => (
+                    <Link 
+                      key={tag} 
+                      href={`/?tag=${encodeURIComponent(tag)}`}
+                      className="article-tag"
+                    >
+                      {tag}
+                    </Link>
+                  ))}
+                </div>
+              )}
             </div>
-          </div>
-          <div className="article-content">
-            <ReactMarkdown remarkPlugins={[remarkGfm]}>
-              {report.content}
-            </ReactMarkdown>
-          </div>
-        </article>
+            <div className="article-content">
+              <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                {report.content}
+              </ReactMarkdown>
+            </div>
+            <ShareButtons title={report.title} url={pageUrl} />
+          </article>
+          
+          {headings.length > 0 && (
+            <aside className="article-sidebar">
+              <TOC headings={headings} />
+            </aside>
+          )}
+        </div>
       </main>
 
       <footer className="footer">
