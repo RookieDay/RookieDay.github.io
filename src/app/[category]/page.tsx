@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { getReports, categories, Category, getAllTags } from '@/lib/reports'
 import { notFound } from 'next/navigation'
 import { SearchBox } from '@/components/SearchBox'
+import { ThemeToggle } from '@/components/ThemeProvider'
 
 export function generateStaticParams() {
   return categories.map(cat => ({ category: cat.id }))
@@ -21,9 +22,14 @@ export default function CategoryPage({ params }: { params: { category: Category 
     <>
       <header className="header">
         <div className="container">
-          <div className="header-brand">
-            <h1>金融简报中心</h1>
-            <p>每日金融资讯 · 市场分析 · 行业观点</p>
+          <div className="header-inner">
+            <div className="header-brand">
+              <h1>金融简报中心</h1>
+              <p>每日金融资讯 · 市场分析 · 行业观点</p>
+            </div>
+            <div className="header-actions">
+              <ThemeToggle />
+            </div>
           </div>
         </div>
       </header>
@@ -81,9 +87,9 @@ export default function CategoryPage({ params }: { params: { category: Category 
                     {report.tags.length > 0 && (
                       <div className="card-tags">
                         {report.tags.slice(0, 3).map(tag => (
-                          <span key={tag} className="card-tag">
+                          <Link key={tag} href={`/tags/${tag}`} className="card-tag">
                             {tag}
-                          </span>
+                          </Link>
                         ))}
                       </div>
                     )}
@@ -112,9 +118,9 @@ export default function CategoryPage({ params }: { params: { category: Category 
             <div className="tag-cloud">
               {allTags.length > 0 ? (
                 allTags.map(tag => (
-                  <button key={tag} className="tag-btn">
+                  <Link key={tag} href={`/tags/${tag}`} className="tag-btn">
                     {tag}
-                  </button>
+                  </Link>
                 ))
               ) : (
                 <p className="sidebar-empty">暂无标签</p>

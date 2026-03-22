@@ -1,5 +1,4 @@
 import type { Metadata, Viewport } from 'next'
-import { ThemeToggle } from '@/components/ThemeProvider'
 import { BackToTop } from '@/components/BackToTop'
 import './globals.css'
 
@@ -22,7 +21,6 @@ export default function RootLayout({
   return (
     <html lang="zh-CN" suppressHydrationWarning>
       <body>
-        <ThemeToggle />
         {children}
         <BackToTop />
       </body>

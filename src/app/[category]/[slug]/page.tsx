@@ -6,6 +6,7 @@ import remarkGfm from 'remark-gfm'
 import { TOC } from '@/components/TOC'
 import { ShareButtons } from '@/components/ShareButtons'
 import { SearchBox } from '@/components/SearchBox'
+import { ThemeToggle } from '@/components/ThemeProvider'
 
 export function generateStaticParams() {
   const params: { category: string; slug: string }[] = []
@@ -40,9 +41,14 @@ export default function ReportPage({ params }: { params: { category: Category; s
     <>
       <header className="header">
         <div className="container">
-          <div className="header-brand">
-            <h1>金融简报中心</h1>
-            <p>每日金融资讯 · 市场分析 · 行业观点</p>
+          <div className="header-inner">
+            <div className="header-brand">
+              <h1>金融简报中心</h1>
+              <p>每日金融资讯 · 市场分析 · 行业观点</p>
+            </div>
+            <div className="header-actions">
+              <ThemeToggle />
+            </div>
           </div>
         </div>
       </header>
@@ -130,9 +136,9 @@ export default function ReportPage({ params }: { params: { category: Category; s
             <div className="tag-cloud">
               {allTags.length > 0 ? (
                 allTags.map(tag => (
-                  <button key={tag} className="tag-btn">
+                  <Link key={tag} href={`/tags/${tag}`} className="tag-btn">
                     {tag}
-                  </button>
+                  </Link>
                 ))
               ) : (
                 <p className="sidebar-empty">暂无标签</p>

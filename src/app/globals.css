@@ -77,8 +77,20 @@ body {
 
 .header {
   padding: 32px 0;
-  text-align: center;
   border-bottom: 1px solid var(--border-color);
+  position: relative;
+}
+
+.header-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+
+.header-brand {
+  flex: 1;
+  text-align: center;
 }
 
 .header-brand h1 {
@@ -95,10 +107,14 @@ body {
   color: var(--text-secondary);
 }
 
+.header-actions {
+  position: absolute;
+  right: 24px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
 .theme-toggle {
-  position: fixed;
-  top: 20px;
-  right: 20px;
   width: 40px;
   height: 40px;
   border-radius: var(--radius-full);
@@ -111,8 +127,7 @@ body {
   justify-content: center;
   font-size: 1rem;
   transition: var(--transition);
-  z-index: 1000;
-  box-shadow: var(--shadow-md);
+  box-shadow: var(--shadow-sm);
 }
 
 .theme-toggle:hover {
@@ -232,9 +247,16 @@ body {
   color: var(--text-primary);
   cursor: pointer;
   transition: var(--transition);
+  text-decoration: none;
 }
 
 .tag-btn:hover {
+  background: var(--color-orange);
+  color: var(--color-light);
+  border-color: var(--color-orange);
+}
+
+.tag-btn.active {
   background: var(--color-orange);
   color: var(--color-light);
   border-color: var(--color-orange);
@@ -440,6 +462,11 @@ body {
   color: var(--text-secondary);
 }
 
+.card-category {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+
 .card-summary {
   color: var(--text-primary);
   font-size: 0.9rem;
@@ -475,6 +502,18 @@ body {
   font-family: var(--font-heading);
   font-size: 0.7rem;
   color: var(--text-secondary);
+  text-decoration: none;
+  transition: var(--transition);
+}
+
+.card-tag:hover {
+  background: var(--color-orange);
+  color: var(--color-light);
+}
+
+.card-tag.active {
+  background: var(--color-orange);
+  color: var(--color-light);
 }
 
 .card-link {
@@ -1026,6 +1065,15 @@ body {
     font-size: 1.5rem;
   }
   
+  .header-actions {
+    right: 16px;
+  }
+  
+  .theme-toggle {
+    width: 36px;
+    height: 36px;
+  }
+  
   .nav-inner {
     overflow-x: auto;
     padding-bottom: 8px;
@@ -1093,13 +1141,6 @@ body {
   
   .page-title {
     font-size: 1.25rem;
-  }
-  
-  .theme-toggle {
-    top: 16px;
-    right: 16px;
-    width: 36px;
-    height: 36px;
   }
 }
 
