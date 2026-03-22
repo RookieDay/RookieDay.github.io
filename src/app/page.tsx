@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { getTodayReports, categories, Category, getAllTags } from '@/lib/reports'
+import { SearchBox } from '@/components/SearchBox'
 
 function CategorySection({ categoryId, reports }: { categoryId: Category, reports: ReturnType<typeof getTodayReports> }) {
   const category = categories.find(c => c.id === categoryId)
@@ -19,9 +20,6 @@ function CategorySection({ categoryId, reports }: { categoryId: Category, report
             <div className="card-header">
               <h3 className="card-title">{report.title}</h3>
               <div className="card-meta">
-                <span className="card-category">
-                  {category?.icon} {category?.name}
-                </span>
                 <span className="card-time">
                   {new Date(report.date).toLocaleString('zh-CN', {
                     month: 'numeric',
@@ -61,53 +59,80 @@ export default function Home() {
     <>
       <header className="header">
         <div className="container">
-          <div className="header-inner">
-            <h1>金融简报中心</h1>
-            <p>每日金融资讯 · 市场分析 · 行业观点</p>
+          <div className="header-top">
+            <div className="header-brand">
+              <h1>金融简报中心</h1>
+              <p>每日金融资讯 · 市场分析 · 行业观点</p>
+            </div>
+            <div className="header-search">
+              <SearchBox />
+            </div>
           </div>
         </div>
       </header>
 
       <nav className="nav">
-        <Link href="/" className="nav-link active">今日简报</Link>
-        <Link href="/market" className="nav-link">市场行情</Link>
-        <Link href="/daily" className="nav-link">每日简报</Link>
-        <Link href="/fund" className="nav-link">基金追踪</Link>
-        <Link href="/monitor" className="nav-link">实时监控</Link>
-      </nav>
-
-      {allTags.length > 0 && (
-        <div className="container" style={{ marginBottom: '32px' }}>
-          <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', justifyContent: 'center' }}>
-            {allTags.map(tag => (
-              <span
-                key={tag}
-                className="nav-link"
-                style={{ fontSize: '0.8rem', padding: '6px 14px', cursor: 'default' }}
-              >
-                {tag}
-              </span>
-            ))}
+        <div className="container">
+          <div className="nav-inner">
+            <Link href="/" className="nav-link active">今日简报</Link>
+            <Link href="/market" className="nav-link">市场行情</Link>
+            <Link href="/daily" className="nav-link">每日简报</Link>
+            <Link href="/fund" className="nav-link">基金追踪</Link>
+            <Link href="/monitor" className="nav-link">实时监控</Link>
           </div>
         </div>
-      )}
+      </nav>
 
-      <main className="container">
-        {hasReports ? (
-          <>
-            <CategorySection categoryId="market" reports={todayReports} />
-            <CategorySection categoryId="daily" reports={todayReports} />
-            <CategorySection categoryId="fund" reports={todayReports} />
-            <CategorySection categoryId="monitor" reports={todayReports} />
-          </>
-        ) : (
-          <div className="empty-state">
-            <p>📭</p>
-            <p>今日暂无报告</p>
-            <p style={{ marginTop: '8px', fontSize: '0.9rem' }}>报告将在设定时间自动生成</p>
+      <div className="layout-wrapper">
+        <aside className="sidebar">
+          <div className="sidebar-section">
+            <h3 className="sidebar-title">🏷️ 热门标签</h3>
+            <div className="tag-cloud">
+              {allTags.length > 0 ? (
+                allTags.map(tag => (
+                  <span key={tag} className="tag-item">
+                    {tag}
+                  </span>
+                ))
+              ) : (
+                <p className="sidebar-empty">暂无标签</p>
+              )}
+            </div>
           </div>
-        )}
-      </main>
+          <div className="sidebar-section">
+            <h3 className="sidebar-title">📊 分类统计</h3>
+            <div className="category-stats">
+              {categories.map(cat => {
+                const count = todayReports.filter(r => r.category === cat.id).length
+                return (
+                  <div key={cat.id} className="stat-item">
+                    <span className="stat-icon">{cat.icon}</span>
+                    <span className="stat-name">{cat.name}</span>
+                    <span className="stat-count">{count}</span>
+                  </div>
+                )
+              })}
+            </div>
+          </div>
+        </aside>
+
+        <main className="main-content">
+          {hasReports ? (
+            <>
+              <CategorySection categoryId="market" reports={todayReports} />
+              <CategorySection categoryId="daily" reports={todayReports} />
+              <CategorySection categoryId="fund" reports={todayReports} />
+              <CategorySection categoryId="monitor" reports={todayReports} />
+            </>
+          ) : (
+            <div className="empty-state">
+              <p>📭</p>
+              <p>今日暂无报告</p>
+              <p style={{ marginTop: '8px', fontSize: '0.9rem' }}>报告将在设定时间自动生成</p>
+            </div>
+          )}
+        </main>
+      </div>
 
       <footer className="footer">
         <p>© 2026 金融简报中心 · 数据仅供参考，不构成投资建议</p>

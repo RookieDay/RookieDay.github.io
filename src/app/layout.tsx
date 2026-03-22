@@ -1,6 +1,5 @@
 import type { Metadata, Viewport } from 'next'
 import { ThemeToggle } from '@/components/ThemeProvider'
-import { SearchBox } from '@/components/SearchBox'
 import { BackToTop } from '@/components/BackToTop'
 import './globals.css'
 
@@ -24,7 +23,6 @@ export default function RootLayout({
     <html lang="zh-CN" suppressHydrationWarning>
       <body>
         <ThemeToggle />
-        <SearchBox />
         {children}
         <BackToTop />
       </body>

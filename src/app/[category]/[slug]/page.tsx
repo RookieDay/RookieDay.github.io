@@ -1,10 +1,11 @@
 import Link from 'next/link'
-import { getReport, getReports, categories, extractHeadings } from '@/lib/reports'
+import { getReport, getReports, categories, Category, extractHeadings, getAllTags } from '@/lib/reports'
 import { notFound } from 'next/navigation'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import { TOC } from '@/components/TOC'
 import { ShareButtons } from '@/components/ShareButtons'
+import { SearchBox } from '@/components/SearchBox'
 
 export function generateStaticParams() {
   const params: { category: string; slug: string }[] = []
@@ -23,9 +24,10 @@ export function generateStaticParams() {
   return params
 }
 
-export default function ReportPage({ params }: { params: { category: string; slug: string } }) {
-  const report = getReport(params.category as any, params.slug)
+export default function ReportPage({ params }: { params: { category: Category; slug: string } }) {
+  const report = getReport(params.category, params.slug)
   const category = categories.find(c => c.id === params.category)
+  const allTags = getAllTags()
 
   if (!report || !category) {
     notFound()
@@ -38,31 +40,63 @@ export default function ReportPage({ params }: { params: { category: string; slu
     <>
       <header className="header">
         <div className="container">
-          <div className="header-inner">
-            <h1>金融简报中心</h1>
-            <p>每日金融资讯 · 市场分析 · 行业观点</p>
+          <div className="header-top">
+            <div className="header-brand">
+              <h1>金融简报中心</h1>
+              <p>每日金融资讯 · 市场分析 · 行业观点</p>
+            </div>
+            <div className="header-search">
+              <SearchBox />
+            </div>
           </div>
         </div>
       </header>
 
       <nav className="nav">
-        <Link href="/" className="nav-link">今日简报</Link>
-        <Link href="/market" className={`nav-link ${params.category === 'market' ? 'active' : ''}`}>市场行情</Link>
-        <Link href="/daily" className={`nav-link ${params.category === 'daily' ? 'active' : ''}`}>每日简报</Link>
-        <Link href="/fund" className={`nav-link ${params.category === 'fund' ? 'active' : ''}`}>基金追踪</Link>
-        <Link href="/monitor" className={`nav-link ${params.category === 'monitor' ? 'active' : ''}`}>实时监控</Link>
+        <div className="container">
+          <div className="nav-inner">
+            <Link href="/" className="nav-link">今日简报</Link>
+            <Link href="/market" className={`nav-link ${params.category === 'market' ? 'active' : ''}`}>市场行情</Link>
+            <Link href="/daily" className={`nav-link ${params.category === 'daily' ? 'active' : ''}`}>每日简报</Link>
+            <Link href="/fund" className={`nav-link ${params.category === 'fund' ? 'active' : ''}`}>基金追踪</Link>
+            <Link href="/monitor" className={`nav-link ${params.category === 'monitor' ? 'active' : ''}`}>实时监控</Link>
+          </div>
+        </div>
       </nav>
 
-      <main className="container">
-        <nav className="breadcrumb">
-          <Link href="/">首页</Link>
-          <span>/</span>
-          <Link href={`/${params.category}`}>{category.name}</Link>
-          <span>/</span>
-          <span className="current">{report.title}</span>
-        </nav>
+      <div className="layout-wrapper">
+        <aside className="sidebar">
+          <div className="sidebar-section">
+            <h3 className="sidebar-title">🏷️ 热门标签</h3>
+            <div className="tag-cloud">
+              {allTags.length > 0 ? (
+                allTags.map(tag => (
+                  <span key={tag} className="tag-item">
+                    {tag}
+                  </span>
+                ))
+              ) : (
+                <p className="sidebar-empty">暂无标签</p>
+              )}
+            </div>
+          </div>
+          {headings.length > 0 && (
+            <div className="sidebar-section">
+              <h3 className="sidebar-title">📑 文章目录</h3>
+              <TOC headings={headings} />
+            </div>
+          )}
+        </aside>
 
-        <div className="article-layout">
+        <main className="main-content">
+          <nav className="breadcrumb">
+            <Link href="/">首页</Link>
+            <span>/</span>
+            <Link href={`/${params.category}`}>{category.name}</Link>
+            <span>/</span>
+            <span className="current">{report.title}</span>
+          </nav>
+
           <article className="article">
             <div className="article-header">
               <h1>{report.title}</h1>
@@ -81,13 +115,9 @@ export default function ReportPage({ params }: { params: { category: string; slu
               {report.tags.length > 0 && (
                 <div className="article-tags">
                   {report.tags.map(tag => (
-                    <Link 
-                      key={tag} 
-                      href={`/?tag=${encodeURIComponent(tag)}`}
-                      className="article-tag"
-                    >
+                    <span key={tag} className="article-tag">
                       {tag}
-                    </Link>
+                    </span>
                   ))}
                 </div>
               )}
@@ -99,14 +129,8 @@ export default function ReportPage({ params }: { params: { category: string; slu
             </div>
             <ShareButtons title={report.title} url={pageUrl} />
           </article>
-          
-          {headings.length > 0 && (
-            <aside className="article-sidebar">
-              <TOC headings={headings} />
-            </aside>
-          )}
-        </div>
-      </main>
+        </main>
+      </div>
 
       <footer className="footer">
         <p>© 2026 金融简报中心 · 数据仅供参考，不构成投资建议</p>

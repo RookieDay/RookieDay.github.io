@@ -32,21 +32,18 @@ export function TOC({ headings }: TOCProps) {
   if (headings.length === 0) return null
 
   return (
-    <nav className="toc">
-      <h3 className="toc-title">目录</h3>
-      <ul className="toc-list">
-        {headings.map(({ level, text, id }) => (
-          <li key={id} className="toc-item">
-            <a
-              href={`#${id}`}
-              className={`toc-link ${activeId === id ? 'active' : ''}`}
-              data-level={level}
-            >
-              {text}
-            </a>
-          </li>
-        ))}
-      </ul>
-    </nav>
+    <ul className="toc-list">
+      {headings.map(({ level, text, id }) => (
+        <li key={id} className="toc-item">
+          <a
+            href={`#${id}`}
+            className={`toc-link ${activeId === id ? 'active' : ''}`}
+            data-level={level}
+          >
+            {text}
+          </a>
+        </li>
+      ))}
+    </ul>
   )
 }
