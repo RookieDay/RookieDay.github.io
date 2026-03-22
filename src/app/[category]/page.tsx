@@ -1,8 +1,7 @@
 import Link from 'next/link'
-import { getReports, categories, Category, CategoryInfo } from '@/lib/reports'
+import { getReports, categories, Category } from '@/lib/reports'
 import { notFound } from 'next/navigation'
 
-// 简化 generateStaticParams
 export function generateStaticParams() {
   return categories.map(cat => ({ category: cat.id }))
 }
@@ -17,10 +16,14 @@ export default function CategoryPage({ params }: { params: { category: Category 
   const reports = getReports(params.category)
 
   return (
-    <main className="container">
+    <>
       <header className="header">
-        <h1>{category.icon} {category.name}</h1>
-        <p>{category.description}</p>
+        <div className="container">
+          <div className="header-inner">
+            <h1>{category.icon} {category.name}</h1>
+            <p>{category.description}</p>
+          </div>
+        </div>
       </header>
 
       <nav className="nav">
@@ -31,34 +34,43 @@ export default function CategoryPage({ params }: { params: { category: Category 
         <Link href="/monitor" className={`nav-link ${params.category === 'monitor' ? 'active' : ''}`}>实时监控</Link>
       </nav>
 
-      {reports.length > 0 ? (
-        <div className="grid">
-          {reports.map(report => (
-            <div key={report.slug} className="card">
-              <div className="card-header">
-                <h3 className="card-title">{report.title}</h3>
-                <span className="card-time">
-                  {new Date(report.date).toLocaleString('zh-CN', {
-                    year: 'numeric',
-                    month: 'numeric',
-                    day: 'numeric',
-                    hour: '2-digit',
-                    minute: '2-digit'
-                  })}
-                </span>
-              </div>
-              <p className="card-summary">{report.summary}</p>
-              <Link href={`/${report.category}/${report.slug}`} className="card-link">
-                查看详情 →
-              </Link>
-            </div>
-          ))}
-        </div>
-      ) : (
-        <div className="empty-state">
-          <p>📭 暂无报告</p>
-        </div>
-      )}
-    </main>
+      <main className="container">
+        {reports.length > 0 ? (
+          <div className="grid">
+            {reports.map(report => (
+              <article key={report.slug} className="card">
+                <div className="card-header">
+                  <h3 className="card-title">{report.title}</h3>
+                  <div className="card-meta">
+                    <span className="card-time">
+                      {new Date(report.date).toLocaleString('zh-CN', {
+                        year: 'numeric',
+                        month: 'numeric',
+                        day: 'numeric',
+                        hour: '2-digit',
+                        minute: '2-digit'
+                      })}
+                    </span>
+                  </div>
+                </div>
+                <p className="card-summary">{report.summary}</p>
+                <Link href={`/${report.category}/${report.slug}`} className="card-link">
+                  阅读全文
+                </Link>
+              </article>
+            ))}
+          </div>
+        ) : (
+          <div className="empty-state">
+            <p>📭</p>
+            <p>暂无报告</p>
+          </div>
+        )}
+      </main>
+
+      <footer className="footer">
+        <p>© 2026 金融简报中心 · 数据仅供参考，不构成投资建议</p>
+      </footer>
+    </>
   )
 }

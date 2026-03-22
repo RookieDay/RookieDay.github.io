@@ -9,29 +9,34 @@ function CategorySection({ categoryId, reports }: { categoryId: Category, report
 
   return (
     <section className="section">
-      <h2 className="category-title">
+      <div className="category-header">
         <span className="category-icon">{category?.icon}</span>
-        {category?.name}
-      </h2>
+        <h2 className="category-title">{category?.name}</h2>
+      </div>
       <div className="grid">
         {categoryReports.map(report => (
-          <div key={report.slug} className="card">
+          <article key={report.slug} className="card">
             <div className="card-header">
               <h3 className="card-title">{report.title}</h3>
-              <span className="card-time">
-                {new Date(report.date).toLocaleString('zh-CN', {
-                  month: 'numeric',
-                  day: 'numeric',
-                  hour: '2-digit',
-                  minute: '2-digit'
-                })}
-              </span>
+              <div className="card-meta">
+                <span className="card-category">
+                  {category?.icon} {category?.name}
+                </span>
+                <span className="card-time">
+                  {new Date(report.date).toLocaleString('zh-CN', {
+                    month: 'numeric',
+                    day: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                  })}
+                </span>
+              </div>
             </div>
             <p className="card-summary">{report.summary}</p>
             <Link href={`/${report.category}/${report.slug}`} className="card-link">
-              查看详情 →
+              阅读全文
             </Link>
-          </div>
+          </article>
         ))}
       </div>
     </section>
@@ -43,10 +48,14 @@ export default function Home() {
   const hasReports = todayReports.length > 0
 
   return (
-    <main className="container">
+    <>
       <header className="header">
-        <h1>📊 金融简报中心</h1>
-        <p>每日金融资讯 · 市场分析 · 行业观点</p>
+        <div className="container">
+          <div className="header-inner">
+            <h1>金融简报中心</h1>
+            <p>每日金融资讯 · 市场分析 · 行业观点</p>
+          </div>
+        </div>
       </header>
 
       <nav className="nav">
@@ -57,19 +66,26 @@ export default function Home() {
         <Link href="/monitor" className="nav-link">实时监控</Link>
       </nav>
 
-      {hasReports ? (
-        <>
-          <CategorySection categoryId="market" reports={todayReports} />
-          <CategorySection categoryId="daily" reports={todayReports} />
-          <CategorySection categoryId="fund" reports={todayReports} />
-          <CategorySection categoryId="monitor" reports={todayReports} />
-        </>
-      ) : (
-        <div className="empty-state">
-          <p>📭 今日暂无报告</p>
-          <p style={{ marginTop: '10px', fontSize: '0.9rem' }}>报告将在设定时间自动生成</p>
-        </div>
-      )}
-    </main>
+      <main className="container">
+        {hasReports ? (
+          <>
+            <CategorySection categoryId="market" reports={todayReports} />
+            <CategorySection categoryId="daily" reports={todayReports} />
+            <CategorySection categoryId="fund" reports={todayReports} />
+            <CategorySection categoryId="monitor" reports={todayReports} />
+          </>
+        ) : (
+          <div className="empty-state">
+            <p>📭</p>
+            <p>今日暂无报告</p>
+            <p style={{ marginTop: '8px', fontSize: '0.9rem' }}>报告将在设定时间自动生成</p>
+          </div>
+        )}
+      </main>
+
+      <footer className="footer">
+        <p>© 2026 金融简报中心 · 数据仅供参考，不构成投资建议</p>
+      </footer>
+    </>
   )
 }
