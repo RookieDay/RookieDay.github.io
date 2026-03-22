@@ -21,14 +21,9 @@ export default function CategoryPage({ params }: { params: { category: Category 
     <>
       <header className="header">
         <div className="container">
-          <div className="header-top">
-            <div className="header-brand">
-              <h1>金融简报中心</h1>
-              <p>每日金融资讯 · 市场分析 · 行业观点</p>
-            </div>
-            <div className="header-search">
-              <SearchBox />
-            </div>
+          <div className="header-brand">
+            <h1>金融简报中心</h1>
+            <p>每日金融资讯 · 市场分析 · 行业观点</p>
           </div>
         </div>
       </header>
@@ -45,45 +40,21 @@ export default function CategoryPage({ params }: { params: { category: Category 
         </div>
       </nav>
 
-      <div className="layout-wrapper">
-        <aside className="sidebar">
-          <div className="sidebar-section">
-            <h3 className="sidebar-title">🏷️ 热门标签</h3>
-            <div className="tag-cloud">
-              {allTags.length > 0 ? (
-                allTags.map(tag => (
-                  <span key={tag} className="tag-item">
-                    {tag}
-                  </span>
-                ))
-              ) : (
-                <p className="sidebar-empty">暂无标签</p>
-              )}
-            </div>
+      <div className="search-section">
+        <div className="container">
+          <div className="search-wrapper">
+            <SearchBox />
           </div>
-          <div className="sidebar-section">
-            <h3 className="sidebar-title">📁 分类导航</h3>
-            <div className="category-nav">
-              {categories.map(cat => (
-                <Link 
-                  key={cat.id} 
-                  href={`/${cat.id}`}
-                  className={`category-nav-item ${params.category === cat.id ? 'active' : ''}`}
-                >
-                  <span className="category-nav-icon">{cat.icon}</span>
-                  <span className="category-nav-name">{cat.name}</span>
-                </Link>
-              ))}
-            </div>
-          </div>
-        </aside>
+        </div>
+      </div>
 
+      <div className="layout-wrapper">
         <main className="main-content">
           <div className="page-header">
             <span className="page-icon">{category.icon}</span>
             <div>
               <h1 className="page-title">{category.name}</h1>
-              <p className="page-desc">{category.description}</p>
+              <p className="page-desc">{category.description} · 共 {reports.length} 篇报告</p>
             </div>
           </div>
 
@@ -104,20 +75,22 @@ export default function CategoryPage({ params }: { params: { category: Category 
                         })}
                       </span>
                     </div>
+                  </div>
+                  <p className="card-summary">{report.summary}</p>
+                  <div className="card-footer">
                     {report.tags.length > 0 && (
                       <div className="card-tags">
-                        {report.tags.map(tag => (
+                        {report.tags.slice(0, 3).map(tag => (
                           <span key={tag} className="card-tag">
                             {tag}
                           </span>
                         ))}
                       </div>
                     )}
+                    <Link href={`/${report.category}/${report.slug}`} className="card-link">
+                      阅读 →
+                    </Link>
                   </div>
-                  <p className="card-summary">{report.summary}</p>
-                  <Link href={`/${report.category}/${report.slug}`} className="card-link">
-                    阅读全文
-                  </Link>
                 </article>
               ))}
             </div>
@@ -128,6 +101,45 @@ export default function CategoryPage({ params }: { params: { category: Category 
             </div>
           )}
         </main>
+
+        <aside className="sidebar">
+          <div className="sidebar-section">
+            <h3 className="sidebar-title">
+              <span className="sidebar-title-icon">🏷️</span>
+              内容标签
+            </h3>
+            <p className="sidebar-desc">点击标签筛选相关内容</p>
+            <div className="tag-cloud">
+              {allTags.length > 0 ? (
+                allTags.map(tag => (
+                  <button key={tag} className="tag-btn">
+                    {tag}
+                  </button>
+                ))
+              ) : (
+                <p className="sidebar-empty">暂无标签</p>
+              )}
+            </div>
+          </div>
+          <div className="sidebar-section">
+            <h3 className="sidebar-title">
+              <span className="sidebar-title-icon">📁</span>
+              分类导航
+            </h3>
+            <div className="category-nav">
+              {categories.map(cat => (
+                <Link 
+                  key={cat.id} 
+                  href={`/${cat.id}`}
+                  className={`category-nav-item ${params.category === cat.id ? 'active' : ''}`}
+                >
+                  <span className="category-nav-icon">{cat.icon}</span>
+                  <span className="category-nav-name">{cat.name}</span>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </aside>
       </div>
 
       <footer className="footer">

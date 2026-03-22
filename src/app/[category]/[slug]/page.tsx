@@ -40,14 +40,9 @@ export default function ReportPage({ params }: { params: { category: Category; s
     <>
       <header className="header">
         <div className="container">
-          <div className="header-top">
-            <div className="header-brand">
-              <h1>金融简报中心</h1>
-              <p>每日金融资讯 · 市场分析 · 行业观点</p>
-            </div>
-            <div className="header-search">
-              <SearchBox />
-            </div>
+          <div className="header-brand">
+            <h1>金融简报中心</h1>
+            <p>每日金融资讯 · 市场分析 · 行业观点</p>
           </div>
         </div>
       </header>
@@ -64,30 +59,15 @@ export default function ReportPage({ params }: { params: { category: Category; s
         </div>
       </nav>
 
-      <div className="layout-wrapper">
-        <aside className="sidebar">
-          <div className="sidebar-section">
-            <h3 className="sidebar-title">🏷️ 热门标签</h3>
-            <div className="tag-cloud">
-              {allTags.length > 0 ? (
-                allTags.map(tag => (
-                  <span key={tag} className="tag-item">
-                    {tag}
-                  </span>
-                ))
-              ) : (
-                <p className="sidebar-empty">暂无标签</p>
-              )}
-            </div>
+      <div className="search-section">
+        <div className="container">
+          <div className="search-wrapper">
+            <SearchBox />
           </div>
-          {headings.length > 0 && (
-            <div className="sidebar-section">
-              <h3 className="sidebar-title">📑 文章目录</h3>
-              <TOC headings={headings} />
-            </div>
-          )}
-        </aside>
+        </div>
+      </div>
 
+      <div className="layout-wrapper">
         <main className="main-content">
           <nav className="breadcrumb">
             <Link href="/">首页</Link>
@@ -130,6 +110,36 @@ export default function ReportPage({ params }: { params: { category: Category; s
             <ShareButtons title={report.title} url={pageUrl} />
           </article>
         </main>
+
+        <aside className="sidebar">
+          {headings.length > 0 && (
+            <div className="sidebar-section">
+              <h3 className="sidebar-title">
+                <span className="sidebar-title-icon">📑</span>
+                文章目录
+              </h3>
+              <TOC headings={headings} />
+            </div>
+          )}
+          <div className="sidebar-section">
+            <h3 className="sidebar-title">
+              <span className="sidebar-title-icon">🏷️</span>
+              内容标签
+            </h3>
+            <p className="sidebar-desc">点击标签筛选相关内容</p>
+            <div className="tag-cloud">
+              {allTags.length > 0 ? (
+                allTags.map(tag => (
+                  <button key={tag} className="tag-btn">
+                    {tag}
+                  </button>
+                ))
+              ) : (
+                <p className="sidebar-empty">暂无标签</p>
+              )}
+            </div>
+          </div>
+        </aside>
       </div>
 
       <footer className="footer">

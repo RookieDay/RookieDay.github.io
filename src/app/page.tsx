@@ -13,6 +13,7 @@ function CategorySection({ categoryId, reports }: { categoryId: Category, report
       <div className="category-header">
         <span className="category-icon">{category?.icon}</span>
         <h2 className="category-title">{category?.name}</h2>
+        <span className="category-count">{categoryReports.length} 篇</span>
       </div>
       <div className="grid">
         {categoryReports.map(report => (
@@ -29,20 +30,22 @@ function CategorySection({ categoryId, reports }: { categoryId: Category, report
                   })}
                 </span>
               </div>
+            </div>
+            <p className="card-summary">{report.summary}</p>
+            <div className="card-footer">
               {report.tags.length > 0 && (
                 <div className="card-tags">
-                  {report.tags.map(tag => (
+                  {report.tags.slice(0, 3).map(tag => (
                     <span key={tag} className="card-tag">
                       {tag}
                     </span>
                   ))}
                 </div>
               )}
+              <Link href={`/${report.category}/${report.slug}`} className="card-link">
+                阅读 →
+              </Link>
             </div>
-            <p className="card-summary">{report.summary}</p>
-            <Link href={`/${report.category}/${report.slug}`} className="card-link">
-              阅读全文
-            </Link>
           </article>
         ))}
       </div>
@@ -59,14 +62,9 @@ export default function Home() {
     <>
       <header className="header">
         <div className="container">
-          <div className="header-top">
-            <div className="header-brand">
-              <h1>金融简报中心</h1>
-              <p>每日金融资讯 · 市场分析 · 行业观点</p>
-            </div>
-            <div className="header-search">
-              <SearchBox />
-            </div>
+          <div className="header-brand">
+            <h1>金融简报中心</h1>
+            <p>每日金融资讯 · 市场分析 · 行业观点</p>
           </div>
         </div>
       </header>
@@ -83,39 +81,15 @@ export default function Home() {
         </div>
       </nav>
 
-      <div className="layout-wrapper">
-        <aside className="sidebar">
-          <div className="sidebar-section">
-            <h3 className="sidebar-title">🏷️ 热门标签</h3>
-            <div className="tag-cloud">
-              {allTags.length > 0 ? (
-                allTags.map(tag => (
-                  <span key={tag} className="tag-item">
-                    {tag}
-                  </span>
-                ))
-              ) : (
-                <p className="sidebar-empty">暂无标签</p>
-              )}
-            </div>
+      <div className="search-section">
+        <div className="container">
+          <div className="search-wrapper">
+            <SearchBox />
           </div>
-          <div className="sidebar-section">
-            <h3 className="sidebar-title">📊 分类统计</h3>
-            <div className="category-stats">
-              {categories.map(cat => {
-                const count = todayReports.filter(r => r.category === cat.id).length
-                return (
-                  <div key={cat.id} className="stat-item">
-                    <span className="stat-icon">{cat.icon}</span>
-                    <span className="stat-name">{cat.name}</span>
-                    <span className="stat-count">{count}</span>
-                  </div>
-                )
-              })}
-            </div>
-          </div>
-        </aside>
+        </div>
+      </div>
 
+      <div className="layout-wrapper">
         <main className="main-content">
           {hasReports ? (
             <>
@@ -132,6 +106,45 @@ export default function Home() {
             </div>
           )}
         </main>
+
+        <aside className="sidebar">
+          <div className="sidebar-section">
+            <h3 className="sidebar-title">
+              <span className="sidebar-title-icon">🏷️</span>
+              内容标签
+            </h3>
+            <p className="sidebar-desc">点击标签筛选相关内容</p>
+            <div className="tag-cloud">
+              {allTags.length > 0 ? (
+                allTags.map(tag => (
+                  <button key={tag} className="tag-btn">
+                    {tag}
+                  </button>
+                ))
+              ) : (
+                <p className="sidebar-empty">暂无标签</p>
+              )}
+            </div>
+          </div>
+          <div className="sidebar-section">
+            <h3 className="sidebar-title">
+              <span className="sidebar-title-icon">📊</span>
+              今日统计
+            </h3>
+            <div className="stats-grid">
+              {categories.map(cat => {
+                const count = todayReports.filter(r => r.category === cat.id).length
+                return (
+                  <div key={cat.id} className="stat-card">
+                    <span className="stat-icon">{cat.icon}</span>
+                    <span className="stat-name">{cat.name}</span>
+                    <span className="stat-count">{count}</span>
+                  </div>
+                )
+              })}
+            </div>
+          </div>
+        </aside>
       </div>
 
       <footer className="footer">
