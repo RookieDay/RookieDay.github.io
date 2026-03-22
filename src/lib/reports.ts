@@ -94,6 +94,11 @@ export function getReports(category?: Category): Report[] {
   )
 }
 
+function extractTitleFromContent(content: string): string {
+  const match = content.match(/^#\s+(.+?)(?:\s*\||\n)/)
+  return match ? match[1].trim() : '未命名报告'
+}
+
 function getReportsFromDir(dir: string, category: Category): Report[] {
   const files = fs.readdirSync(dir)
 
@@ -106,7 +111,7 @@ function getReportsFromDir(dir: string, category: Category): Report[] {
 
       return {
         slug: file.replace('.md', ''),
-        title: data.title || '未命名报告',
+        title: data.title || extractTitleFromContent(content),
         date: data.date || new Date().toISOString(),
         category,
         summary: data.summary || content.slice(0, 150) + '...',
@@ -127,7 +132,7 @@ export function getReport(category: Category, slug: string): Report | null {
 
   return {
     slug,
-    title: data.title || '未命名报告',
+    title: data.title || extractTitleFromContent(content),
     date: data.date || new Date().toISOString(),
     category,
     summary: data.summary || content.slice(0, 150) + '...',
