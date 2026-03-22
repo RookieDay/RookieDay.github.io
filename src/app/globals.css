@@ -151,6 +151,9 @@ body {
   padding: 28px;
   transition: var(--transition);
   position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 280px;
 }
 
 .card:hover {
@@ -205,6 +208,7 @@ body {
   line-height: 1.7;
   margin-bottom: 20px;
   opacity: 0.85;
+  flex-grow: 1;
 }
 
 .card-link {
@@ -220,6 +224,8 @@ body {
   font-weight: 500;
   font-size: 0.85rem;
   transition: var(--transition);
+  margin-top: auto;
+  align-self: flex-start;
 }
 
 .card-link:hover {
