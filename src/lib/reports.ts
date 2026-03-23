@@ -61,24 +61,30 @@ function extractTagsFromContent(content: string): string[] {
   if (tagMatch) {
     return tagMatch[1].split(/[,，、\s]+/).filter(t => t.length > 0)
   }
-  
-  const keywords: Record<string, string[]> = {
-    'AI': ['AI', '人工智能', 'OpenAI', '英伟达', 'NVIDIA', 'Anthropic', 'Claude', 'GPT', '大模型'],
-    '金融': ['央行', 'LPR', '利率', '货币政策', '金融', '银行'],
-    '市场': ['A股', '港股', '美股', '股市', '指数', 'ETF'],
-    '地缘': ['伊朗', '中东', '战争', '特朗普', '霍尔木兹'],
-    '基金': ['基金', 'ETF', '投资', '理财'],
-    '能源': ['油价', '原油', '石油', 'OPEC'],
-  }
-  
+
   const foundTags: string[] = []
-  for (const [tag, words] of Object.entries(keywords)) {
-    if (words.some(word => content.includes(word))) {
+  const contentLower = content.toLowerCase()
+
+  const keywords: Array<[string, string[]]> = [
+    ['AI', ['ai', 'openai', 'nvidia', '英伟达', 'anthropic', 'claude', 'gpt', '大模型', '人工智能', '深度学习', '机器学习']],
+    ['金融', ['央行', 'lpr', '利率', '货币', 'bank', '金融', '银行']],
+    ['市场', ['a股', '港股', '美股', '股市', '指数', 'etf', 'trading', 'market']],
+    ['地缘', ['伊朗', '中东', '战争', '特朗普', '普京', '制裁']],
+    ['基金', ['基金', 'etf', '投资', '理财', '净值', '管理']],
+    ['能源', ['油价', '原油', '石油', 'opec', '天然气', '能源']],
+  ]
+
+  for (const [tag, words] of keywords) {
+    if (words.some((word: string) => contentLower.includes(word))) {
       foundTags.push(tag)
     }
   }
-  
-  return foundTags.slice(0, 3)
+
+  if (foundTags.length === 0) {
+    foundTags.push('资讯')
+  }
+
+  return foundTags.slice(0, 4)
 }
 
 function getReportsFromDir(dir: string, category: Category): Report[] {
