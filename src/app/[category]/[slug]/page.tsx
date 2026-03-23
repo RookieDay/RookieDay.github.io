@@ -110,7 +110,26 @@ export default function ReportPage({ params }: { params: { category: Category; s
               )}
             </div>
             <div className="article-content">
-              <ReactMarkdown remarkPlugins={[remarkGfm]}>
+              <ReactMarkdown
+                remarkPlugins={[remarkGfm]}
+                components={{
+                  h1: ({ children }) => {
+                    const text = String(children)
+                    const id = text.toLowerCase().replace(/[^\w\u4e00-\u9fa5]+/g, '-')
+                    return <h1 id={id}>{children}</h1>
+                  },
+                  h2: ({ children }) => {
+                    const text = String(children)
+                    const id = text.toLowerCase().replace(/[^\w\u4e00-\u9fa5]+/g, '-')
+                    return <h2 id={id}>{children}</h2>
+                  },
+                  h3: ({ children }) => {
+                    const text = String(children)
+                    const id = text.toLowerCase().replace(/[^\w\u4e00-\u9fa5]+/g, '-')
+                    return <h3 id={id}>{children}</h3>
+                  }
+                }}
+              >
                 {report.content}
               </ReactMarkdown>
             </div>
