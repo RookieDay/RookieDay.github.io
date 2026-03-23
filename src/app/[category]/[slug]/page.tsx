@@ -60,6 +60,7 @@ export default function ReportPage({ params }: { params: { category: Category; s
             <Link href="/market" className={`nav-link ${params.category === 'market' ? 'active' : ''}`}>市场行情</Link>
             <Link href="/daily" className={`nav-link ${params.category === 'daily' ? 'active' : ''}`}>每日简报</Link>
             <Link href="/fund" className={`nav-link ${params.category === 'fund' ? 'active' : ''}`}>基金追踪</Link>
+            <Link href="/monstock" className={`nav-link ${params.category === 'monstock' ? 'active' : ''}`}>月度金股</Link>
             <Link href="/monitor" className={`nav-link ${params.category === 'monitor' ? 'active' : ''}`}>实时监控</Link>
           </div>
         </div>

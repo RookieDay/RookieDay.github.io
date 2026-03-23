@@ -41,6 +41,7 @@ export default function TagPage({ params }: { params: { tag: string } }) {
             <Link href="/market" className="nav-link">市场行情</Link>
             <Link href="/daily" className="nav-link">每日简报</Link>
             <Link href="/fund" className="nav-link">基金追踪</Link>
+            <Link href="/monstock" className="nav-link">月度金股</Link>
             <Link href="/monitor" className="nav-link">实时监控</Link>
           </div>
         </div>

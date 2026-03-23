@@ -1,4 +1,4 @@
-export type Category = 'market' | 'daily' | 'monitor' | 'fund'
+export type Category = 'market' | 'daily' | 'monitor' | 'fund' | 'monstock'
 
 export interface Report {
   slug: string
@@ -41,5 +41,11 @@ export const categories: CategoryInfo[] = [
     name: '实时监控',
     icon: '🔔',
     description: '特朗普推文监控'
+  },
+  {
+    id: 'monstock',
+    name: '月度金股',
+    icon: '🎯',
+    description: '月度金股推荐、选股策略'
   }
 ]
