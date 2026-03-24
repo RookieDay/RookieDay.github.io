@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- 背景 -->
+  <circle cx="50" cy="50" r="48" fill="#E8F5E9"/>
+  
+  <!-- 羊身体 -->
+  <ellipse cx="50" cy="65" rx="30" ry="25" fill="#FFFFFF" stroke="#BDBDBD" stroke-width="2"/>
+  
+  <!-- 羊头 -->
+  <circle cx="50" cy="35" r="22" fill="#FFFFFF" stroke="#BDBDBD" stroke-width="2"/>
+  
+  <!-- 蓬松的毛发 -->
+  <circle cx="35" cy="25" r="8" fill="#F5F5F5"/>
+  <circle cx="50" cy="20" r="8" fill="#F5F5F5"/>
+  <circle cx="65" cy="25" r="8" fill="#F5F5F5"/>
+  <circle cx="42" cy="18" r="6" fill="#FAFAFA"/>
+  <circle cx="58" cy="18" r="6" fill="#FAFAFA"/>
+  
+  <!-- 耳朵 -->
+  <ellipse cx="28" cy="30" rx="8" ry="5" fill="#FFCCBC" stroke="#BDBDBD" stroke-width="1.5" transform="rotate(-30 28 30)"/>
+  <ellipse cx="72" cy="30" rx="8" ry="5" fill="#FFCCBC" stroke="#BDBDBD" stroke-width="1.5" transform="rotate(30 72 30)"/>
+  
+  <!-- 眼睛 -->
+  <circle cx="42" cy="35" r="4" fill="#424242"/>
+  <circle cx="58" cy="35" r="4" fill="#424242"/>
+  
+  <!-- 眼睛高光 -->
+  <circle cx="43.5" cy="33.5" r="1.5" fill="#FFFFFF"/>
+  <circle cx="59.5" cy="33.5" r="1.5" fill="#FFFFFF"/>
+  
+  <!-- 腮红 -->
+  <circle cx="36" cy="42" r="4" fill="#FFCDD2" opacity="0.6"/>
+  <circle cx="64" cy="42" r="4" fill="#FFCDD2" opacity="0.6"/>
+  
+  <!-- 鼻子 -->
+  <ellipse cx="50" cy="43" rx="3" ry="2" fill="#FFAB91"/>
+  
+  <!-- 嘴巴 -->
+  <path d="M 46 47 Q 50 50 54 47" stroke="#BDBDBD" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+  
+  <!-- 小腿 -->
+  <rect x="32" y="82" width="6" height="10" rx="2" fill="#8D6E63"/>
+  <rect x="62" y="82" width="6" height="10" rx="2" fill="#8D6E63"/>
+  
+  <!-- 尾巴 -->
+  <circle cx="78" cy="60" r="6" fill="#F5F5F5"/>
+  <circle cx="82" cy="58" r="4" fill="#FAFAFA"/>
+</svg>
