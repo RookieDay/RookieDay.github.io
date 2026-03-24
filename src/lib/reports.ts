@@ -108,10 +108,22 @@ function getReportsFromDir(dir: string, category: Category): Report[] {
       const fileContent = fs.readFileSync(filePath, 'utf8')
       const { data, content } = matter(fileContent)
 
+      // 从文件名中提取日期 (格式: 2026-03-24-xxx.md)
+      const dateFromFilename = file.match(/^(\d{4}-\d{2}-\d{2})/)?.[1]
+      
+      // 优先级：frontmatter.date > 文件名日期 > 当前时间
+      let date = data.date
+      if (!date && dateFromFilename) {
+        date = `${dateFromFilename}T00:00:00.000Z`
+      }
+      if (!date) {
+        date = new Date().toISOString()
+      }
+
       return {
         slug: file.replace('.md', ''),
         title: data.title || extractTitleFromContent(content),
-        date: data.date || new Date().toISOString(),
+        date,
         category,
         summary: data.summary || content.slice(0, 150) + '...',
         content,
