@@ -37,7 +37,7 @@ function CategorySection({ categoryId, reports }: { categoryId: Category, report
               {report.tags.length > 0 && (
                 <div className="card-tags">
                   {report.tags.slice(0, 3).map(tag => (
-                    <Link key={tag} href={`/tags/${tag}`} className="card-tag">
+                    <Link key={tag} href={`/tags/${encodeURIComponent(tag)}`} className="card-tag">
                       {tag}
                     </Link>
                   ))}
@@ -124,7 +124,7 @@ export default function Home() {
             <div className="tag-cloud">
               {allTags.length > 0 ? (
                 allTags.map(tag => (
-                  <Link key={tag} href={`/tags/${tag}`} className="tag-btn">
+                  <Link key={tag} href={`/tags/${encodeURIComponent(tag)}`} className="tag-btn">
                     {tag}
                   </Link>
                 ))

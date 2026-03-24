@@ -156,7 +156,7 @@ export default function ReportPage({ params }: { params: { category: Category; s
             <div className="tag-cloud">
               {allTags.length > 0 ? (
                 allTags.map(tag => (
-                  <Link key={tag} href={`/tags/${tag}`} className="tag-btn">
+                  <Link key={tag} href={`/tags/${encodeURIComponent(tag)}`} className="tag-btn">
                     {tag}
                   </Link>
                 ))
