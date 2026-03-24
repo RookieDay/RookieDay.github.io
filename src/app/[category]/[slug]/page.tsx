@@ -25,9 +25,10 @@ export function generateStaticParams() {
   return params
 }
 
-export default function ReportPage({ params }: { params: { category: Category; slug: string } }) {
-  const report = getReport(params.category, params.slug)
-  const category = categories.find(c => c.id === params.category)
+export default async function ReportPage({ params }: { params: Promise<{ category: Category; slug: string }> }) {
+  const { category: categoryParam, slug } = await params
+  const report = getReport(categoryParam, slug)
+  const category = categories.find(c => c.id === categoryParam)
   const allTags = getAllTags()
 
   if (!report || !category) {
@@ -35,7 +36,7 @@ export default function ReportPage({ params }: { params: { category: Category; s
   }
 
   const headings = extractHeadings(report.content)
-  const pageUrl = `https://rookieday.github.io/${params.category}/${params.slug}`
+  const pageUrl = `https://rookieday.github.io/${categoryParam}/${slug}`
 
   return (
     <>
@@ -57,11 +58,11 @@ export default function ReportPage({ params }: { params: { category: Category; s
         <div className="container">
           <div className="nav-inner">
             <Link href="/" className="nav-link">今日简报</Link>
-            <Link href="/market" className={`nav-link ${params.category === 'market' ? 'active' : ''}`}>市场行情</Link>
-            <Link href="/daily" className={`nav-link ${params.category === 'daily' ? 'active' : ''}`}>每日简报</Link>
-            <Link href="/fund" className={`nav-link ${params.category === 'fund' ? 'active' : ''}`}>基金追踪</Link>
-            <Link href="/monstock" className={`nav-link ${params.category === 'monstock' ? 'active' : ''}`}>月度金股</Link>
-            <Link href="/monitor" className={`nav-link ${params.category === 'monitor' ? 'active' : ''}`}>实时监控</Link>
+            <Link href="/market" className={`nav-link ${categoryParam === 'market' ? 'active' : ''}`}>市场行情</Link>
+            <Link href="/daily" className={`nav-link ${categoryParam === 'daily' ? 'active' : ''}`}>每日简报</Link>
+            <Link href="/fund" className={`nav-link ${categoryParam === 'fund' ? 'active' : ''}`}>基金追踪</Link>
+            <Link href="/monstock" className={`nav-link ${categoryParam === 'monstock' ? 'active' : ''}`}>月度金股</Link>
+            <Link href="/monitor" className={`nav-link ${categoryParam === 'monitor' ? 'active' : ''}`}>实时监控</Link>
           </div>
         </div>
       </nav>
@@ -79,7 +80,7 @@ export default function ReportPage({ params }: { params: { category: Category; s
           <nav className="breadcrumb">
             <Link href="/">首页</Link>
             <span>/</span>
-            <Link href={`/${params.category}`}>{category.name}</Link>
+            <Link href={`/${categoryParam}`}>{category.name}</Link>
             <span>/</span>
             <span className="current">{report.title}</span>
           </nav>

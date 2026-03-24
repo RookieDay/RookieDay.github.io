@@ -8,14 +8,15 @@ export function generateStaticParams() {
   return categories.map(cat => ({ category: cat.id }))
 }
 
-export default function CategoryPage({ params }: { params: { category: Category } }) {
-  const category = categories.find(c => c.id === params.category)
+export default async function CategoryPage({ params }: { params: Promise<{ category: Category }> }) {
+  const { category: categoryParam } = await params
+  const category = categories.find(c => c.id === categoryParam)
 
   if (!category) {
     notFound()
   }
 
-  const reports = getReports(params.category)
+  const reports = getReports(categoryParam)
   const allTags = getAllTags()
 
   return (
@@ -38,11 +39,11 @@ export default function CategoryPage({ params }: { params: { category: Category 
         <div className="container">
           <div className="nav-inner">
             <Link href="/" className="nav-link">今日简报</Link>
-            <Link href="/market" className={`nav-link ${params.category === 'market' ? 'active' : ''}`}>市场行情</Link>
-            <Link href="/daily" className={`nav-link ${params.category === 'daily' ? 'active' : ''}`}>每日简报</Link>
-            <Link href="/fund" className={`nav-link ${params.category === 'fund' ? 'active' : ''}`}>基金追踪</Link>
-            <Link href="/monstock" className={`nav-link ${params.category === 'monstock' ? 'active' : ''}`}>月度金股</Link>
-            <Link href="/monitor" className={`nav-link ${params.category === 'monitor' ? 'active' : ''}`}>实时监控</Link>
+            <Link href="/market" className={`nav-link ${categoryParam === 'market' ? 'active' : ''}`}>市场行情</Link>
+            <Link href="/daily" className={`nav-link ${categoryParam === 'daily' ? 'active' : ''}`}>每日简报</Link>
+            <Link href="/fund" className={`nav-link ${categoryParam === 'fund' ? 'active' : ''}`}>基金追踪</Link>
+            <Link href="/monstock" className={`nav-link ${categoryParam === 'monstock' ? 'active' : ''}`}>月度金股</Link>
+            <Link href="/monitor" className={`nav-link ${categoryParam === 'monitor' ? 'active' : ''}`}>实时监控</Link>
           </div>
         </div>
       </nav>
@@ -135,10 +136,10 @@ export default function CategoryPage({ params }: { params: { category: Category 
             </h3>
             <div className="category-nav">
               {categories.map(cat => (
-                <Link 
-                  key={cat.id} 
+                <Link
+                  key={cat.id}
                   href={`/${cat.id}`}
-                  className={`category-nav-item ${params.category === cat.id ? 'active' : ''}`}
+                  className={`category-nav-item ${categoryParam === cat.id ? 'active' : ''}`}
                 >
                   <span className="category-nav-icon">{cat.icon}</span>
                   <span className="category-nav-name">{cat.name}</span>

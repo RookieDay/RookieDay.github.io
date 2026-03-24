@@ -7,27 +7,38 @@ import { categories } from './types'
 export type { Category, Report, CategoryInfo }
 export { categories }
 
+let contentDirectory: string | null = null
+
 const getContentDirectory = () => {
+  if (contentDirectory) return contentDirectory
+  
+  // 确保 process.cwd() 存在
+  const cwd = process.cwd()
+  if (!cwd) {
+    throw new Error('process.cwd() returned undefined')
+  }
+  
   const possiblePaths = [
-    path.join(process.cwd(), 'content'),
-    path.join(process.cwd(), '.next/server/app/content'),
+    path.join(cwd, 'content'),
+    path.join(cwd, '.next/server/app/content'),
   ]
 
   for (const p of possiblePaths) {
-    if (fs.existsSync(p)) {
-      return p
+    if (p && fs.existsSync(p)) {
+      contentDirectory = p
+      return contentDirectory
     }
   }
 
-  return path.join(process.cwd(), 'content')
+  contentDirectory = path.join(cwd, 'content')
+  return contentDirectory
 }
 
-const contentDirectory = getContentDirectory()
-
 export function getReports(category?: Category): Report[] {
+  const contentDir = getContentDirectory()
   const targetDir = category
-    ? path.join(contentDirectory, category)
-    : contentDirectory
+    ? path.join(contentDir, category)
+    : contentDir
 
   if (!fs.existsSync(targetDir)) {
     return []
@@ -39,7 +50,7 @@ export function getReports(category?: Category): Report[] {
     allReports = getReportsFromDir(targetDir, category)
   } else {
     for (const cat of categories) {
-      const catDir = path.join(contentDirectory, cat.id)
+      const catDir = path.join(contentDir, cat.id)
       if (fs.existsSync(catDir)) {
         allReports = allReports.concat(getReportsFromDir(catDir, cat.id))
       }
@@ -110,7 +121,8 @@ function getReportsFromDir(dir: string, category: Category): Report[] {
 }
 
 export function getReport(category: Category, slug: string): Report | null {
-  const filePath = path.join(contentDirectory, category, `${slug}.md`)
+  const contentDir = getContentDirectory()
+  const filePath = path.join(contentDir, category, `${slug}.md`)
 
   if (!fs.existsSync(filePath)) {
     return null

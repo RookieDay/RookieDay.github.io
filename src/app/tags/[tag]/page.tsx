@@ -10,8 +10,9 @@ export function generateStaticParams() {
   return tags.map(tag => ({ tag }))
 }
 
-export default function TagPage({ params }: { params: { tag: string } }) {
-  const tagName = decodeURIComponent(params.tag)
+export default async function TagPage({ params }: { params: Promise<{ tag: string }> }) {
+  const { tag: tagParam } = await params
+  const tagName = decodeURIComponent(tagParam)
   const reports = getReportsByTag(tagName)
   const allTags = getAllTags()
 
