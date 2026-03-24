@@ -6,7 +6,8 @@ import { ThemeToggle } from '@/components/ThemeProvider'
 
 export function generateStaticParams() {
   const tags = getAllTags()
-  return tags.map(tag => ({ tag: encodeURIComponent(tag) }))
+  // 不要在这里编码，让 Next.js 自动处理
+  return tags.map(tag => ({ tag }))
 }
 
 export default function TagPage({ params }: { params: { tag: string } }) {
