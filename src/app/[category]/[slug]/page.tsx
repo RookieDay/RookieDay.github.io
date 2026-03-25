@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import { TOC } from '@/components/TOC'
+import { MobileTOC } from '@/components/MobileTOC'
 import { ShareButtons } from '@/components/ShareButtons'
 import { SearchBox } from '@/components/SearchBox'
 import { ThemeToggle } from '@/components/ThemeProvider'
@@ -168,6 +169,9 @@ export default async function ReportPage({ params }: { params: Promise<{ categor
           </div>
         </aside>
       </div>
+
+      {/* 手机端浮动目录按钮 */}
+      <MobileTOC headings={headings} />
 
       <footer className="footer">
         <p>© 2026 金融简报中心 · 数据仅供参考，不构成投资建议</p>
