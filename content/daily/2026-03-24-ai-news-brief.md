@@ -2,7 +2,7 @@
 title: "AI新闻简报"
 date: 2026-03-24 15:40:00
 categories: ["daily", "ai", "technology"]
-tags: ["AI", "芯片", "算力", "概念股", "监管", "伦理"]
+tags: ["AI"]
 summary: "全球AI巨头动态、AI芯片及算力市场进展、AI应用落地及商业化、AI相关概念股表现、监管政策及伦理"
 ---
 

@@ -76,13 +76,15 @@ function extractTagsFromContent(content: string): string[] {
   const foundTags: string[] = []
   const contentLower = content.toLowerCase()
 
+  // 核心关键词映射（精简版，10个分类左右）
   const keywords: Array<[string, string[]]> = [
-    ['AI', ['ai', 'openai', 'nvidia', '英伟达', 'anthropic', 'claude', 'gpt', '大模型', '人工智能', '深度学习', '机器学习']],
-    ['金融', ['央行', 'lpr', '利率', '货币', 'bank', '金融', '银行']],
-    ['市场', ['a股', '港股', '美股', '股市', '指数', 'etf', 'trading', 'market']],
-    ['地缘', ['伊朗', '中东', '战争', '特朗普', '普京', '制裁']],
-    ['基金', ['基金', 'etf', '投资', '理财', '净值', '管理']],
-    ['能源', ['油价', '原油', '石油', 'opec', '天然气', '能源']],
+    ['AI', ['ai', '英伟达', 'openai', '人工智能']],
+    ['金融', ['央行', '利率', '金融', '银行']],
+    ['市场', ['a股', '港股', '美股', '股市']],
+    ['地缘', ['伊朗', '特朗普', '战争', '中东']],
+    ['基金', ['基金', 'etf']],
+    ['能源', ['油价', '原油', '石油']],
+    ['行业', ['行业', '产业', '板块']],
   ]
 
   for (const [tag, words] of keywords) {
